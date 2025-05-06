@@ -1,0 +1,56 @@
+package main
+
+import (
+	"fmt"
+	"os"
+	"redis-go/common/config"
+	"redis-go/common/logger"
+	"redis-go/common/utils"
+	"redis-go/handler"
+	"redis-go/transport"
+)
+
+var banner = `
+██████╗ ███████╗██████╗ ██╗███████╗       ██████╗  ██████╗ 
+██╔══██╗██╔════╝██╔══██╗██║██╔════╝      ██╔════╝ ██╔═══██╗
+██████╔╝█████╗  ██║  ██║██║███████╗█████╗██║  ███╗██║   ██║
+██╔══██╗██╔══╝  ██║  ██║██║╚════██║╚════╝██║   ██║██║   ██║
+██║  ██║███████╗██████╔╝██║███████║      ╚██████╔╝╚██████╔╝
+╚═╝  ╚═╝╚══════╝╚═════╝ ╚═╝╚══════╝       ╚═════╝  ╚═════╝
+`
+
+var defaultProperties = &config.ServerProperties{
+	Bind:           "0.0.0.0",
+	Port:           6389,
+	AppendOnly:     false,
+	AppendFilename: "",
+	MaxClients:     1000,
+	RunID:          utils.RandString(40),
+}
+
+func main() {
+	print(banner)
+	logger.Setup(&logger.Settings{
+		Path:       "logs",
+		Name:       "redis-go",
+		Ext:        "log",
+		TimeFormat: "2006-01-02",
+	})
+
+	configFilename := os.Getenv("CONFIG")
+	if configFilename == "" {
+		if utils.FileExists("redis.conf") {
+			config.SetupConfig("redis.conf")
+		} else {
+			config.Properties = defaultProperties
+		}
+	} else {
+		config.SetupConfig(configFilename)
+	}
+	err := transport.ListenAndServeWithSignal(&transport.Config{
+		Address: fmt.Sprintf("%s:%d", config.Properties.Bind, config.Properties.Port),
+	}, handler.MakeHandler())
+	if err != nil {
+		logger.Error(err)
+	}
+}
