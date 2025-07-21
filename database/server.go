@@ -8,8 +8,8 @@ import (
 	"github.com/qilianshuo/redis-go/connection"
 	"github.com/qilianshuo/redis-go/database/datastruct/dict"
 	"github.com/qilianshuo/redis-go/database/rdb"
+	"github.com/qilianshuo/redis-go/internal/resp"
 	"github.com/qilianshuo/redis-go/pkg/logger"
-	"github.com/qilianshuo/redis-go/resp"
 )
 
 // Command represents a command to be executed by the database

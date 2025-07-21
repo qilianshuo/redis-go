@@ -64,7 +64,7 @@ func parse(rawReader io.Reader, ch chan<- *Payload) {
 				continue
 			}
 			ch <- &Payload{
-				Data: MakeIntReply(value),
+				Data: MakeIntegerReply(value),
 			}
 		case '$': // Bulk strings
 			err = parseBulkString(line, reader, ch)

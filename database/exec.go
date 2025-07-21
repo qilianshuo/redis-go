@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/qilianshuo/redis-go/database/datastruct/list"
-	"github.com/qilianshuo/redis-go/resp"
+	"github.com/qilianshuo/redis-go/internal/resp"
 )
 
 type CommandProc func(*Server, [][]byte) resp.Reply
@@ -30,7 +30,7 @@ var cmdTable = map[string]CommandProc{
 // CommandPing handles the PING command
 func cmdPing(db *Server, args [][]byte) resp.Reply {
 	if len(args) == 0 {
-		return resp.MakePongReplay()
+		return resp.MakePongReply()
 	} else if len(args) == 1 {
 		return resp.MakeStatusReply(string(args[0]))
 	} else {
@@ -98,7 +98,7 @@ func cmdSet(db *Server, args [][]byte) resp.Reply {
 		// TODO Handle other optional arguments...
 	}
 
-	return resp.MakeOkReplay()
+	return resp.MakeOkReply()
 }
 
 // CommandTTL handles the TTL command
@@ -111,12 +111,12 @@ func cmdTTL(db *Server, args [][]byte) resp.Reply {
 
 	// Check if key exists
 	if _, ok := db.data.Get(keyStr); !ok {
-		return resp.MakeIntReply(-2)
+		return resp.MakeIntegerReply(-2)
 	}
 
 	// Get expiry
 	if expireVal, ok := db.ttlMap.Get(keyStr); !ok {
-		return resp.MakeIntReply(-1)
+		return resp.MakeIntegerReply(-1)
 	} else {
 		// Convert to time
 		expiryTime := expireVal.(time.Time)
@@ -125,9 +125,9 @@ func cmdTTL(db *Server, args [][]byte) resp.Reply {
 		if ttl < 0 {
 			// Key has expired
 			db.deleteExpiredKey(keyStr)
-			return resp.MakeIntReply(-2)
+			return resp.MakeIntegerReply(-2)
 		}
-		return resp.MakeIntReply(int64(ttl))
+		return resp.MakeIntegerReply(int64(ttl))
 	}
 }
 
@@ -189,7 +189,7 @@ func cmdRPush(db *Server, args [][]byte) resp.Reply {
 		quickList.Add(string(args[i]))
 	}
 
-	return resp.MakeIntReply(int64(quickList.Len()))
+	return resp.MakeIntegerReply(int64(quickList.Len()))
 }
 
 // CommandLPush handles the LPUSH command
@@ -218,7 +218,7 @@ func cmdLPush(db *Server, args [][]byte) resp.Reply {
 		quickList.Insert(0, string(args[i]))
 	}
 
-	return resp.MakeIntReply(int64(quickList.Len()))
+	return resp.MakeIntegerReply(int64(quickList.Len()))
 }
 
 // CommandLRange handles the LRANGE command
@@ -287,7 +287,7 @@ func cmdLLen(db *Server, args [][]byte) resp.Reply {
 	key := string(args[0])
 	val, exists := db.data.Get(key)
 	if !exists {
-		return resp.MakeIntReply(0)
+		return resp.MakeIntegerReply(0)
 	}
 
 	quickList, ok := val.(*list.QuickList)
@@ -295,7 +295,7 @@ func cmdLLen(db *Server, args [][]byte) resp.Reply {
 		return resp.MakeErrorReply("WRONGTYPE Operation against a key holding the wrong kind of value")
 	}
 
-	return resp.MakeIntReply(int64(quickList.Len()))
+	return resp.MakeIntegerReply(int64(quickList.Len()))
 }
 
 // CommandLIndex handles the LINDEX command
@@ -399,7 +399,7 @@ func cmdSave(db *Server, args [][]byte) resp.Reply {
 		return resp.MakeErrorReply("ERR saving failed: " + err.Error())
 	}
 
-	return resp.MakeOkReplay()
+	return resp.MakeOkReply()
 }
 
 // CommandLoad handles the LOAD command
@@ -418,5 +418,5 @@ func cmdLoad(db *Server, args [][]byte) resp.Reply {
 		return resp.MakeErrorReply("ERR loading failed: " + err.Error())
 	}
 
-	return resp.MakeOkReplay()
+	return resp.MakeOkReply()
 }

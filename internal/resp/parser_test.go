@@ -25,7 +25,7 @@ func TestParseStream(t *testing.T) {
 		{
 			name:     "Integer",
 			input:    ":12345\r\n",
-			expected: MakeIntReply(12345),
+			expected: MakeIntegerReply(12345),
 		},
 		{
 			name:     "Bulk string",

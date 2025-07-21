@@ -9,8 +9,8 @@ import (
 	"sync"
 
 	"github.com/qilianshuo/redis-go/database"
+	"github.com/qilianshuo/redis-go/internal/resp"
 	"github.com/qilianshuo/redis-go/pkg/logger"
-	"github.com/qilianshuo/redis-go/resp"
 
 	"github.com/qilianshuo/redis-go/common/sync/atomic"
 	"github.com/qilianshuo/redis-go/connection"
@@ -77,7 +77,7 @@ func (h *Handler) Handle(ctx context.Context, conn net.Conn) {
 		if result != nil {
 			_, _ = client.Write(result.ToBytes())
 		} else {
-			_, _ = client.Write(resp.MakeUnknownErrorReply().ToBytes())
+			_, _ = client.Write(resp.MakeErrorReply("unknown").ToBytes())
 		}
 	}
 }
