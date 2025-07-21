@@ -7,8 +7,8 @@ import (
 	"github.com/qilianshuo/redis-go/common/config"
 	"github.com/qilianshuo/redis-go/common/utils"
 	"github.com/qilianshuo/redis-go/handler"
+	"github.com/qilianshuo/redis-go/internal/transport"
 	"github.com/qilianshuo/redis-go/pkg/logger"
-	"github.com/qilianshuo/redis-go/transport"
 )
 
 var banner = `

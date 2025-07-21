@@ -154,8 +154,8 @@ func Debug(v ...interface{}) {
 	DefaultLogger.Output(DEBUG, defaultCallerDepth, msg)
 }
 
-// DebugF logs debug message through DefaultLogger
-func DebugF(format string, v ...interface{}) {
+// Debugf logs debug message through DefaultLogger
+func Debugf(format string, v ...interface{}) {
 	msg := fmt.Sprintf(format, v...)
 	DefaultLogger.Output(DEBUG, defaultCallerDepth, msg)
 }
@@ -166,8 +166,8 @@ func Info(v ...interface{}) {
 	DefaultLogger.Output(INFO, defaultCallerDepth, msg)
 }
 
-// InfoF logs message through DefaultLogger
-func InfoF(format string, v ...interface{}) {
+// Infof logs message through DefaultLogger
+func Infof(format string, v ...interface{}) {
 	msg := fmt.Sprintf(format, v...)
 	DefaultLogger.Output(INFO, defaultCallerDepth, msg)
 }
