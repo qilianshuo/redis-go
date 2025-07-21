@@ -3,11 +3,12 @@ package main
 import (
 	"fmt"
 	"os"
-	"redis-go/common/config"
-	"redis-go/common/logger"
-	"redis-go/common/utils"
-	"redis-go/handler"
-	"redis-go/transport"
+
+	"github.com/qilianshuo/redis-go/common/config"
+	"github.com/qilianshuo/redis-go/common/utils"
+	"github.com/qilianshuo/redis-go/handler"
+	"github.com/qilianshuo/redis-go/pkg/logger"
+	"github.com/qilianshuo/redis-go/transport"
 )
 
 var banner = `

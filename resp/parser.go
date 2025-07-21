@@ -5,9 +5,10 @@ import (
 	"bytes"
 	"errors"
 	"io"
-	"redis-go/common/logger"
 	"runtime/debug"
 	"strconv"
+
+	"github.com/qilianshuo/redis-go/pkg/logger"
 )
 
 type Payload struct {

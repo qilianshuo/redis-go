@@ -5,14 +5,15 @@ import (
 	"errors"
 	"io"
 	"net"
-	"redis-go/common/logger"
-	"redis-go/database"
-	"redis-go/resp"
 	"strings"
 	"sync"
 
-	"redis-go/common/sync/atomic"
-	"redis-go/connection"
+	"github.com/qilianshuo/redis-go/database"
+	"github.com/qilianshuo/redis-go/pkg/logger"
+	"github.com/qilianshuo/redis-go/resp"
+
+	"github.com/qilianshuo/redis-go/common/sync/atomic"
+	"github.com/qilianshuo/redis-go/connection"
 )
 
 // Handler implements transport.Handler and serves as a redis service

@@ -1,6 +1,6 @@
 package set
 
-import "redis-go/database/datastruct/dict"
+import "github.com/qilianshuo/redis-go/database/datastruct/dict"
 
 // Set is a set of elements based on hash table
 type Set struct {

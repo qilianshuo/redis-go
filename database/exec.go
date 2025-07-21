@@ -1,10 +1,11 @@
 package database
 
 import (
-	"redis-go/database/datastruct/list"
-	"redis-go/resp"
 	"strconv"
 	"time"
+
+	"github.com/qilianshuo/redis-go/database/datastruct/list"
+	"github.com/qilianshuo/redis-go/resp"
 )
 
 type CommandProc func(*Server, [][]byte) resp.Reply

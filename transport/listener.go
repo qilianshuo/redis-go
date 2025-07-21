@@ -7,11 +7,12 @@ import (
 	"net"
 	"os"
 	"os/signal"
-	"redis-go/common/logger"
 	"sync"
 	"sync/atomic"
 	"syscall"
 	"time"
+
+	"github.com/qilianshuo/redis-go/pkg/logger"
 )
 
 // Config stores service properties
@@ -21,7 +22,7 @@ type Config struct {
 	Timeout    time.Duration `yaml:"timeout"`
 }
 
-// ClientCounter Record the number of clients in the current redis-go service
+// ClientCounter Record the number of clients in the current github.com/qilianshuo/redis-go service
 var ClientCounter int32
 
 func ListenAndServeWithSignal(cfg *Config, handler Handler) error {

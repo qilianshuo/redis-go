@@ -5,11 +5,12 @@ import (
 	"context"
 	"io"
 	"net"
-	"redis-go/common/logger"
-	"redis-go/common/sync/atomic"
-	"redis-go/common/sync/wait"
 	"sync"
 	"time"
+
+	"github.com/qilianshuo/redis-go/common/sync/atomic"
+	"github.com/qilianshuo/redis-go/common/sync/wait"
+	"github.com/qilianshuo/redis-go/pkg/logger"
 )
 
 // EchoHandler echos received line to client, using for test

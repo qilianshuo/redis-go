@@ -2,13 +2,14 @@ package database
 
 import (
 	"fmt"
-	"redis-go/common/logger"
-	"redis-go/connection"
-	"redis-go/database/datastruct/dict"
-	"redis-go/database/rdb"
-	"redis-go/resp"
 	"strings"
 	"time"
+
+	"github.com/qilianshuo/redis-go/connection"
+	"github.com/qilianshuo/redis-go/database/datastruct/dict"
+	"github.com/qilianshuo/redis-go/database/rdb"
+	"github.com/qilianshuo/redis-go/pkg/logger"
+	"github.com/qilianshuo/redis-go/resp"
 )
 
 // Command represents a command to be executed by the database

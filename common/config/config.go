@@ -5,12 +5,13 @@ import (
 	"io"
 	"os"
 	"path/filepath"
-	"redis-go/common/logger"
-	"redis-go/common/utils"
 	"reflect"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/qilianshuo/redis-go/common/utils"
+	"github.com/qilianshuo/redis-go/pkg/logger"
 )
 
 // ServerProperties defines global config properties

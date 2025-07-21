@@ -2,10 +2,11 @@ package connection
 
 import (
 	"net"
-	"redis-go/common/logger"
-	"redis-go/common/sync/wait"
 	"sync"
 	"time"
+
+	"github.com/qilianshuo/redis-go/common/sync/wait"
+	"github.com/qilianshuo/redis-go/pkg/logger"
 )
 
 type Connection struct {
