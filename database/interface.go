@@ -1,7 +1,7 @@
 package database
 
 import (
-	"github.com/qilianshuo/redis-go/connection"
+	"github.com/qilianshuo/redis-go/internal/connection"
 	"github.com/qilianshuo/redis-go/internal/resp"
 )
 

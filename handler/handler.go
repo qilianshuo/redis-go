@@ -13,7 +13,7 @@ import (
 	"github.com/qilianshuo/redis-go/pkg/logger"
 
 	"github.com/qilianshuo/redis-go/common/sync/atomic"
-	"github.com/qilianshuo/redis-go/connection"
+	"github.com/qilianshuo/redis-go/internal/connection"
 )
 
 // Handler implements transport.Handler and serves as a redis service
