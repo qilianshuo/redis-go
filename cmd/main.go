@@ -6,7 +6,6 @@ import (
 
 	"github.com/qilianshuo/redis-go/common/config"
 	"github.com/qilianshuo/redis-go/common/utils"
-	"github.com/qilianshuo/redis-go/handler"
 	"github.com/qilianshuo/redis-go/internal/transport"
 	"github.com/qilianshuo/redis-go/pkg/logger"
 )
@@ -50,7 +49,7 @@ func main() {
 	}
 	err := transport.ListenAndServeWithSignal(&transport.Config{
 		Address: fmt.Sprintf("%s:%d", config.Properties.Bind, config.Properties.Port),
-	}, handler.MakeHandler())
+	}, transport.NewHandler())
 	if err != nil {
 		logger.Error(err)
 	}
