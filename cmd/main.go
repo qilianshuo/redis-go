@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/qilianshuo/redis-go/common/config"
 	"github.com/qilianshuo/redis-go/common/utils"
+	"github.com/qilianshuo/redis-go/internal/config"
 	"github.com/qilianshuo/redis-go/internal/transport"
 	"github.com/qilianshuo/redis-go/pkg/logger"
 )
