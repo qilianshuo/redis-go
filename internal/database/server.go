@@ -5,9 +5,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/qilianshuo/redis-go/database/datastruct/dict"
-	"github.com/qilianshuo/redis-go/database/rdb"
 	"github.com/qilianshuo/redis-go/internal/connection"
+	"github.com/qilianshuo/redis-go/internal/database/datastruct/dict"
+	"github.com/qilianshuo/redis-go/internal/database/rdb"
 	"github.com/qilianshuo/redis-go/internal/resp"
 	"github.com/qilianshuo/redis-go/pkg/logger"
 )

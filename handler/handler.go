@@ -8,7 +8,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/qilianshuo/redis-go/database"
+	"github.com/qilianshuo/redis-go/internal/database"
 	"github.com/qilianshuo/redis-go/internal/resp"
 	"github.com/qilianshuo/redis-go/pkg/logger"
 

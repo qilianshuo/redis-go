@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/qilianshuo/redis-go/database/datastruct/list"
+	"github.com/qilianshuo/redis-go/internal/database/datastruct/list"
 	"github.com/qilianshuo/redis-go/internal/resp"
 )
 
