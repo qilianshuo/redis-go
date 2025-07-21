@@ -1,25 +1,25 @@
 package dict
 
-// SimpleDict wraps a map, it is not thread safe
-type SimpleDict struct {
+// SequentialDict wraps a map, it is not thread safe
+type SequentialDict struct {
 	m map[string]interface{}
 }
 
-// MakeSimple makes a new map
-func MakeSimple() *SimpleDict {
-	return &SimpleDict{
+// NewSequentialDict makes a new map
+func NewSequentialDict() *SequentialDict {
+	return &SequentialDict{
 		m: make(map[string]interface{}),
 	}
 }
 
 // Get returns the binding value and whether the key is exist
-func (dict *SimpleDict) Get(key string) (val interface{}, exists bool) {
+func (dict *SequentialDict) Get(key string) (val interface{}, exists bool) {
 	val, ok := dict.m[key]
 	return val, ok
 }
 
 // Len returns the number of dict
-func (dict *SimpleDict) Len() int {
+func (dict *SequentialDict) Len() int {
 	if dict.m == nil {
 		panic("m is nil")
 	}
@@ -27,7 +27,7 @@ func (dict *SimpleDict) Len() int {
 }
 
 // Put puts key value into dict and returns the number of new inserted key-value
-func (dict *SimpleDict) Put(key string, val interface{}) (result int) {
+func (dict *SequentialDict) Put(key string, val interface{}) (result int) {
 	_, existed := dict.m[key]
 	dict.m[key] = val
 	if existed {
@@ -37,7 +37,7 @@ func (dict *SimpleDict) Put(key string, val interface{}) (result int) {
 }
 
 // PutIfAbsent puts value if the key is not exists and returns the number of updated key-value
-func (dict *SimpleDict) PutIfAbsent(key string, val interface{}) (result int) {
+func (dict *SequentialDict) PutIfAbsent(key string, val interface{}) (result int) {
 	_, existed := dict.m[key]
 	if existed {
 		return 0
@@ -47,7 +47,7 @@ func (dict *SimpleDict) PutIfAbsent(key string, val interface{}) (result int) {
 }
 
 // PutIfExists puts value if the key is existed and returns the number of inserted key-value
-func (dict *SimpleDict) PutIfExists(key string, val interface{}) (result int) {
+func (dict *SequentialDict) PutIfExists(key string, val interface{}) (result int) {
 	_, existed := dict.m[key]
 	if existed {
 		dict.m[key] = val
@@ -57,7 +57,7 @@ func (dict *SimpleDict) PutIfExists(key string, val interface{}) (result int) {
 }
 
 // Remove removes the key and return the number of deleted key-value
-func (dict *SimpleDict) Remove(key string) (val interface{}, result int) {
+func (dict *SequentialDict) Remove(key string) (val interface{}, result int) {
 	val, existed := dict.m[key]
 	delete(dict.m, key)
 	if existed {
@@ -67,7 +67,7 @@ func (dict *SimpleDict) Remove(key string) (val interface{}, result int) {
 }
 
 // Keys returns all keys in dict
-func (dict *SimpleDict) Keys() []string {
+func (dict *SequentialDict) Keys() []string {
 	result := make([]string, len(dict.m))
 	i := 0
 	for k := range dict.m {
@@ -78,7 +78,7 @@ func (dict *SimpleDict) Keys() []string {
 }
 
 // ForEach traversal the dict
-func (dict *SimpleDict) ForEach(consumer Consumer) {
+func (dict *SequentialDict) ForEach(consumer Consumer) {
 	for k, v := range dict.m {
 		if !consumer(k, v) {
 			break
@@ -87,7 +87,7 @@ func (dict *SimpleDict) ForEach(consumer Consumer) {
 }
 
 // RandomKeys randomly returns keys of the given number, may contain duplicated key
-func (dict *SimpleDict) RandomKeys(limit int) []string {
+func (dict *SequentialDict) RandomKeys(limit int) []string {
 	result := make([]string, limit)
 	for i := 0; i < limit; i++ {
 		for k := range dict.m {
@@ -99,7 +99,7 @@ func (dict *SimpleDict) RandomKeys(limit int) []string {
 }
 
 // RandomDistinctKeys randomly returns keys of the given number, won't contain duplicated key
-func (dict *SimpleDict) RandomDistinctKeys(limit int) []string {
+func (dict *SequentialDict) RandomDistinctKeys(limit int) []string {
 	size := limit
 	if size > len(dict.m) {
 		size = len(dict.m)
@@ -117,6 +117,6 @@ func (dict *SimpleDict) RandomDistinctKeys(limit int) []string {
 }
 
 // Clear removes all keys in dict
-func (dict *SimpleDict) Clear() {
-	*dict = *MakeSimple()
+func (dict *SequentialDict) Clear() {
+	*dict = *NewSequentialDict()
 }

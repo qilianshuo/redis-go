@@ -4,22 +4,15 @@ import (
 	"testing"
 )
 
-func TestMake(t *testing.T) {
-	set := Make("a", "b", "c")
-	if set.Len() != 3 {
-		t.Errorf("Make() failed, expected 3, got %d", set.Len())
-	}
-}
-
 func TestMakeConcurrentSafe(t *testing.T) {
-	set := MakeConcurrentSafe("a", "b", "c")
+	set := NewConcurrentSet("a", "b", "c")
 	if set.Len() != 3 {
 		t.Errorf("MakeConcurrentSafe() failed, expected 3, got %d", set.Len())
 	}
 }
 
 func TestSet_Add(t *testing.T) {
-	set := Make()
+	set := NewConcurrentSet()
 	result := set.Add("a")
 	if result != 1 || !set.Has("a") {
 		t.Errorf("Add() failed, expected 1 and 'a' to exist")
@@ -32,7 +25,7 @@ func TestSet_Add(t *testing.T) {
 }
 
 func TestSet_Remove(t *testing.T) {
-	set := Make("a", "b")
+	set := NewConcurrentSet("a", "b")
 	result := set.Remove("a")
 	if result != 1 || set.Has("a") {
 		t.Errorf("Remove() failed, expected 1 and 'a' to not exist")
@@ -45,7 +38,7 @@ func TestSet_Remove(t *testing.T) {
 }
 
 func TestSet_Has(t *testing.T) {
-	set := Make("a", "b")
+	set := NewConcurrentSet("a", "b")
 	if !set.Has("a") {
 		t.Errorf("Has() failed, expected 'a' to exist")
 	}
@@ -56,14 +49,14 @@ func TestSet_Has(t *testing.T) {
 }
 
 func TestSet_Len(t *testing.T) {
-	set := Make("a", "b")
+	set := NewConcurrentSet("a", "b")
 	if set.Len() != 2 {
 		t.Errorf("Len() failed, expected 2, got %d", set.Len())
 	}
 }
 
 func TestSet_ToSlice(t *testing.T) {
-	set := Make("a", "b")
+	set := NewConcurrentSet("a", "b")
 	slice := set.ToSlice()
 	if len(slice) != 2 {
 		t.Errorf("ToSlice() failed, expected 2 elements, got %d", len(slice))
@@ -71,7 +64,7 @@ func TestSet_ToSlice(t *testing.T) {
 }
 
 func TestSet_ForEach(t *testing.T) {
-	set := Make("a", "b")
+	set := NewConcurrentSet("a", "b")
 	count := 0
 	set.ForEach(func(member string) bool {
 		count++
@@ -83,7 +76,7 @@ func TestSet_ForEach(t *testing.T) {
 }
 
 func TestSet_ShallowCopy(t *testing.T) {
-	set := Make("a", "b")
+	set := NewConcurrentSet("a", "b")
 	setCopy := set.ShallowCopy()
 	if setCopy.Len() != set.Len() || !setCopy.Has("a") || !setCopy.Has("b") {
 		t.Errorf("ShallowCopy() failed, expected identical set")
@@ -91,8 +84,8 @@ func TestSet_ShallowCopy(t *testing.T) {
 }
 
 func TestIntersect(t *testing.T) {
-	set1 := Make("a", "b")
-	set2 := Make("b", "c")
+	set1 := NewConcurrentSet("a", "b")
+	set2 := NewConcurrentSet("b", "c")
 	result := Intersect(set1, set2)
 	if result.Len() != 1 || !result.Has("b") {
 		t.Errorf("Intersect() failed, expected set with 'b'")
@@ -100,33 +93,16 @@ func TestIntersect(t *testing.T) {
 }
 
 func TestUnion(t *testing.T) {
-	set1 := Make("a", "b")
-	set2 := Make("b", "c")
+	set1 := NewConcurrentSet("a", "b")
+	set2 := NewConcurrentSet("b", "c")
 	result := Union(set1, set2)
 	if result.Len() != 3 || !result.Has("a") || !result.Has("b") || !result.Has("c") {
 		t.Errorf("Union() failed, expected set with 'a', 'b', 'c'")
 	}
 }
 
-func TestDiff(t *testing.T) {
-	set1 := Make("a", "b")
-	set2 := Make("b", "c")
-	result := Diff(set1, set2)
-	if result.Len() != 1 || !result.Has("a") {
-		t.Errorf("Diff() failed, expected set with 'a'")
-	}
-}
-
-func TestSet_RandomMembers(t *testing.T) {
-	set := Make("a", "b", "c")
-	members := set.RandomMembers(2)
-	if len(members) != 2 {
-		t.Errorf("RandomMembers() failed, expected 2 members, got %d", len(members))
-	}
-}
-
 func TestSet_RandomDistinctMembers(t *testing.T) {
-	set := Make("a", "b", "c")
+	set := NewConcurrentSet("a", "b", "c")
 	members := set.RandomDistinctMembers(2)
 	if len(members) != 2 {
 		t.Errorf("RandomDistinctMembers() failed, expected 2 distinct members, got %d", len(members))

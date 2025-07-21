@@ -5,14 +5,14 @@ import (
 )
 
 func TestMakeSimple(t *testing.T) {
-	dict := MakeSimple()
+	dict := NewSequentialDict()
 	if dict == nil || dict.m == nil {
 		t.Errorf("MakeSimple() failed, expected non-nil SimpleDict")
 	}
 }
 
 func TestSimpleDict_Get(t *testing.T) {
-	dict := MakeSimple()
+	dict := NewSequentialDict()
 	dict.Put("key1", "value1")
 
 	val, exists := dict.Get("key1")
@@ -27,7 +27,7 @@ func TestSimpleDict_Get(t *testing.T) {
 }
 
 func TestSimpleDict_Put(t *testing.T) {
-	dict := MakeSimple()
+	dict := NewSequentialDict()
 	result := dict.Put("key1", "value1")
 	if result != 1 {
 		t.Errorf("Put() failed, expected 1, got %d", result)
@@ -40,7 +40,7 @@ func TestSimpleDict_Put(t *testing.T) {
 }
 
 func TestSimpleDict_PutIfAbsent(t *testing.T) {
-	dict := MakeSimple()
+	dict := NewSequentialDict()
 	result := dict.PutIfAbsent("key1", "value1")
 	if result != 1 {
 		t.Errorf("PutIfAbsent() failed, expected 1, got %d", result)
@@ -53,7 +53,7 @@ func TestSimpleDict_PutIfAbsent(t *testing.T) {
 }
 
 func TestSimpleDict_PutIfExists(t *testing.T) {
-	dict := MakeSimple()
+	dict := NewSequentialDict()
 	result := dict.PutIfExists("key1", "value1")
 	if result != 0 {
 		t.Errorf("PutIfExists() failed, expected 0, got %d", result)
@@ -67,7 +67,7 @@ func TestSimpleDict_PutIfExists(t *testing.T) {
 }
 
 func TestSimpleDict_Remove(t *testing.T) {
-	dict := MakeSimple()
+	dict := NewSequentialDict()
 	dict.Put("key1", "value1")
 
 	val, result := dict.Remove("key1")
@@ -82,7 +82,7 @@ func TestSimpleDict_Remove(t *testing.T) {
 }
 
 func TestSimpleDict_Len(t *testing.T) {
-	dict := MakeSimple()
+	dict := NewSequentialDict()
 	if dict.Len() != 0 {
 		t.Errorf("Len() failed, expected 0, got %d", dict.Len())
 	}
@@ -94,7 +94,7 @@ func TestSimpleDict_Len(t *testing.T) {
 }
 
 func TestSimpleDict_Keys(t *testing.T) {
-	dict := MakeSimple()
+	dict := NewSequentialDict()
 	dict.Put("key1", "value1")
 	dict.Put("key2", "value2")
 
@@ -105,7 +105,7 @@ func TestSimpleDict_Keys(t *testing.T) {
 }
 
 func TestSimpleDict_ForEach(t *testing.T) {
-	dict := MakeSimple()
+	dict := NewSequentialDict()
 	dict.Put("key1", "value1")
 	dict.Put("key2", "value2")
 
@@ -121,7 +121,7 @@ func TestSimpleDict_ForEach(t *testing.T) {
 }
 
 func TestSimpleDict_RandomKeys(t *testing.T) {
-	dict := MakeSimple()
+	dict := NewSequentialDict()
 	dict.Put("key1", "value1")
 	dict.Put("key2", "value2")
 
@@ -132,7 +132,7 @@ func TestSimpleDict_RandomKeys(t *testing.T) {
 }
 
 func TestSimpleDict_RandomDistinctKeys(t *testing.T) {
-	dict := MakeSimple()
+	dict := NewSequentialDict()
 	dict.Put("key1", "value1")
 	dict.Put("key2", "value2")
 
@@ -143,7 +143,7 @@ func TestSimpleDict_RandomDistinctKeys(t *testing.T) {
 }
 
 func TestSimpleDict_Clear(t *testing.T) {
-	dict := MakeSimple()
+	dict := NewSequentialDict()
 	dict.Put("key1", "value1")
 	dict.Clear()
 

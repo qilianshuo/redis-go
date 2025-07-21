@@ -20,8 +20,8 @@ type Command struct {
 }
 
 type Server struct {
-	data   *dict.SimpleDict
-	ttlMap *dict.SimpleDict
+	data   *dict.SequentialDict
+	ttlMap *dict.SequentialDict
 
 	cmdCh chan *Command
 
@@ -58,8 +58,8 @@ func (server *Server) processCommands() {
 
 func NewStandaloneServer() *Server {
 	server := &Server{
-		data:   dict.MakeSimple(),
-		ttlMap: dict.MakeSimple(),
+		data:   dict.NewSequentialDict(),
+		ttlMap: dict.NewSequentialDict(),
 
 		cmdCh: make(chan *Command),
 
