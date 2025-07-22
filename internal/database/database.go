@@ -1,8 +1,8 @@
 package database
 
 import (
-	"github.com/qilianshuo/redis-go/internal/connection"
-	"github.com/qilianshuo/redis-go/internal/resp"
+	"github.com/mirage208/redis-go/internal/connection"
+	"github.com/mirage208/redis-go/internal/resp"
 )
 
 // CmdLine is alias for [][]byte, represents a command line

@@ -12,7 +12,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/qilianshuo/redis-go/common/logger"
+	"github.com/mirage208/redis-go/common/logger"
 )
 
 // Config stores service properties
@@ -22,7 +22,7 @@ type Config struct {
 	Timeout    time.Duration `yaml:"timeout"`
 }
 
-// ClientCounter Record the number of clients in the current github.com/qilianshuo/redis-go service
+// ClientCounter Record the number of clients in the current github.com/mirage208/redis-go service
 var ClientCounter int32
 
 // ListenAndServeWithSignal starts the server and listens for OS signals to gracefully shut down

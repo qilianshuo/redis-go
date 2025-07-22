@@ -1,6 +1,6 @@
 package set
 
-import "github.com/qilianshuo/redis-go/pkg/datastruct/dict"
+import "github.com/mirage208/redis-go/pkg/datastruct/dict"
 
 type ConcurrentSet struct {
 	dict dict.Dict

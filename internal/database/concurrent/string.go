@@ -1,6 +1,6 @@
 package concurrent
 
-import "github.com/qilianshuo/redis-go/internal/resp"
+import "github.com/mirage208/redis-go/internal/resp"
 
 func setExecuter(db *ConcurrentDB, args [][]byte) resp.Reply {
 	if len(args) < 2 {

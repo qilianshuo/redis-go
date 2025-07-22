@@ -3,9 +3,9 @@ package concurrent
 import (
 	"strings"
 
-	"github.com/qilianshuo/redis-go/internal/connection"
-	"github.com/qilianshuo/redis-go/internal/resp"
-	"github.com/qilianshuo/redis-go/pkg/datastruct/dict"
+	"github.com/mirage208/redis-go/internal/connection"
+	"github.com/mirage208/redis-go/internal/resp"
+	"github.com/mirage208/redis-go/pkg/datastruct/dict"
 )
 
 const (

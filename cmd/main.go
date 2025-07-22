@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/qilianshuo/redis-go/common/config"
-	"github.com/qilianshuo/redis-go/common/logger"
-	"github.com/qilianshuo/redis-go/common/utils"
-	"github.com/qilianshuo/redis-go/internal/transport"
+	"github.com/mirage208/redis-go/common/config"
+	"github.com/mirage208/redis-go/common/logger"
+	"github.com/mirage208/redis-go/common/utils"
+	"github.com/mirage208/redis-go/internal/transport"
 )
 
 var banner = `

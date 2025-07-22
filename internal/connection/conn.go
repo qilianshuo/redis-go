@@ -5,8 +5,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/qilianshuo/redis-go/common/logger"
-	"github.com/qilianshuo/redis-go/pkg/sync/wait"
+	"github.com/mirage208/redis-go/common/logger"
+	"github.com/mirage208/redis-go/pkg/sync/wait"
 )
 
 type Connection struct {
