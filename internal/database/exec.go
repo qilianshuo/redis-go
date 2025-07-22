@@ -4,8 +4,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/qilianshuo/redis-go/internal/database/datastruct/list"
 	"github.com/qilianshuo/redis-go/internal/resp"
+	"github.com/qilianshuo/redis-go/pkg/datastruct/list"
 )
 
 type CommandProc func(*Server, [][]byte) resp.Reply
