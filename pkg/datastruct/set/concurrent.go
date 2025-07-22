@@ -9,7 +9,7 @@ type ConcurrentSet struct {
 // NewConcurrentSet creates a new set which is concurrent safe
 func NewConcurrentSet(members ...string) *ConcurrentSet {
 	set := &ConcurrentSet{
-		dict: dict.MakeConcurrent(1),
+		dict: dict.NewConcurrentDict(1),
 	}
 	for _, member := range members {
 		set.Add(member)

@@ -5,14 +5,14 @@ import (
 )
 
 func TestMakeConcurrent(t *testing.T) {
-	dict := MakeConcurrent(4)
+	dict := NewConcurrentDict(4)
 	if dict == nil {
 		t.Errorf("MakeConcurrent() failed, expected non-nil ConcurrentDict")
 	}
 }
 
 func TestConcurrentDict_PutAndGet(t *testing.T) {
-	dict := MakeConcurrent(4)
+	dict := NewConcurrentDict(4)
 	dict.Put("key1", "value1")
 
 	val, exists := dict.Get("key1")
@@ -27,7 +27,7 @@ func TestConcurrentDict_PutAndGet(t *testing.T) {
 }
 
 func TestConcurrentDict_PutIfAbsent(t *testing.T) {
-	dict := MakeConcurrent(4)
+	dict := NewConcurrentDict(4)
 	result := dict.PutIfAbsent("key1", "value1")
 	if result != 1 {
 		t.Errorf("PutIfAbsent() failed, expected 1, got %d", result)
@@ -40,7 +40,7 @@ func TestConcurrentDict_PutIfAbsent(t *testing.T) {
 }
 
 func TestConcurrentDict_PutIfExists(t *testing.T) {
-	dict := MakeConcurrent(4)
+	dict := NewConcurrentDict(4)
 	result := dict.PutIfExists("key1", "value1")
 	if result != 0 {
 		t.Errorf("PutIfExists() failed, expected 0, got %d", result)
@@ -54,7 +54,7 @@ func TestConcurrentDict_PutIfExists(t *testing.T) {
 }
 
 func TestConcurrentDict_Remove(t *testing.T) {
-	dict := MakeConcurrent(4)
+	dict := NewConcurrentDict(4)
 	dict.Put("key1", "value1")
 
 	val, result := dict.Remove("key1")
@@ -69,7 +69,7 @@ func TestConcurrentDict_Remove(t *testing.T) {
 }
 
 func TestConcurrentDict_Len(t *testing.T) {
-	dict := MakeConcurrent(4)
+	dict := NewConcurrentDict(4)
 	if dict.Len() != 0 {
 		t.Errorf("Len() failed, expected 0, got %d", dict.Len())
 	}
@@ -81,7 +81,7 @@ func TestConcurrentDict_Len(t *testing.T) {
 }
 
 func TestConcurrentDict_Keys(t *testing.T) {
-	dict := MakeConcurrent(4)
+	dict := NewConcurrentDict(4)
 	dict.Put("key1", "value1")
 	dict.Put("key2", "value2")
 
@@ -92,7 +92,7 @@ func TestConcurrentDict_Keys(t *testing.T) {
 }
 
 func TestConcurrentDict_ForEach(t *testing.T) {
-	dict := MakeConcurrent(4)
+	dict := NewConcurrentDict(4)
 	dict.Put("key1", "value1")
 	dict.Put("key2", "value2")
 
@@ -108,7 +108,7 @@ func TestConcurrentDict_ForEach(t *testing.T) {
 }
 
 func TestConcurrentDict_RandomKeys(t *testing.T) {
-	dict := MakeConcurrent(4)
+	dict := NewConcurrentDict(4)
 	dict.Put("key1", "value1")
 	dict.Put("key2", "value2")
 
@@ -119,7 +119,7 @@ func TestConcurrentDict_RandomKeys(t *testing.T) {
 }
 
 func TestConcurrentDict_RandomDistinctKeys(t *testing.T) {
-	dict := MakeConcurrent(4)
+	dict := NewConcurrentDict(4)
 	dict.Put("key1", "value1")
 	dict.Put("key2", "value2")
 
@@ -130,7 +130,7 @@ func TestConcurrentDict_RandomDistinctKeys(t *testing.T) {
 }
 
 func TestConcurrentDict_Clear(t *testing.T) {
-	dict := MakeConcurrent(4)
+	dict := NewConcurrentDict(4)
 	dict.Put("key1", "value1")
 	dict.Clear()
 

@@ -37,8 +37,8 @@ func computeCapacity(param int) (size int) {
 	return n + 1
 }
 
-// MakeConcurrent creates ConcurrentDict with the given shard count
-func MakeConcurrent(shardCount int) *ConcurrentDict {
+// NewConcurrentDict creates ConcurrentDict with the given shard count
+func NewConcurrentDict(shardCount int) *ConcurrentDict {
 	if shardCount == 1 {
 		table := []*shard{
 			{
@@ -380,7 +380,7 @@ func (dict *ConcurrentDict) RandomDistinctKeys(limit int) []string {
 
 // Clear removes all keys in dict
 func (dict *ConcurrentDict) Clear() {
-	*dict = *MakeConcurrent(dict.shardCount)
+	*dict = *NewConcurrentDict(dict.shardCount)
 }
 
 func (dict *ConcurrentDict) toLockIndices(keys []string, reverse bool) []uint32 {

@@ -11,6 +11,7 @@ import (
 	"github.com/qilianshuo/redis-go/common/logger"
 	"github.com/qilianshuo/redis-go/internal/connection"
 	"github.com/qilianshuo/redis-go/internal/database"
+	"github.com/qilianshuo/redis-go/internal/database/concurrent"
 	"github.com/qilianshuo/redis-go/internal/resp"
 	"github.com/qilianshuo/redis-go/pkg/sync/atomic"
 )
@@ -25,7 +26,8 @@ type RespHandler struct {
 
 func NewHandler() *RespHandler {
 	// TODO
-	db := database.NewStandaloneServer()
+	// db := database.NewStandaloneServer()
+	db := concurrent.NewConcurrentDB()
 	return &RespHandler{
 		db: db,
 	}
