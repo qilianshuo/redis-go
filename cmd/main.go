@@ -37,6 +37,10 @@ func main() {
 		TimeFormat: "2006-01-02",
 	})
 
+	// Load configuration
+	// Check if CONFIG environment variable is set
+	// If not set, check for redis.conf in the current directory
+	// If redis.conf exists, load it; otherwise, use default properties
 	configFilename := os.Getenv("CONFIG")
 	if configFilename == "" {
 		if utils.FileExists("redis.conf") {
@@ -47,10 +51,12 @@ func main() {
 	} else {
 		config.SetupConfig(configFilename)
 	}
+
+	// Start the server
 	err := transport.ListenAndServeWithSignal(&transport.Config{
 		Address: fmt.Sprintf("%s:%d", config.Properties.Bind, config.Properties.Port),
 	}, transport.NewHandler())
 	if err != nil {
-		logger.Error(err)
+		logger.Errorf("failed to start server: %v", err)
 	}
 }

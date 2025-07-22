@@ -25,9 +25,12 @@ type Config struct {
 // ClientCounter Record the number of clients in the current github.com/qilianshuo/redis-go service
 var ClientCounter int32
 
+// ListenAndServeWithSignal starts the server and listens for OS signals to gracefully shut down
 func ListenAndServeWithSignal(cfg *Config, handler Handler) error {
 	closeChan := make(chan struct{})
-	sigCh := make(chan os.Signal)
+	defer close(closeChan)
+	sigCh := make(chan os.Signal, 1)
+	defer close(sigCh)
 	signal.Notify(sigCh, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)
 	go func() {
 		sig := <-sigCh
@@ -78,7 +81,7 @@ func ListenAndServe(listener net.Listener, handler Handler, closeChan <-chan str
 		}
 		// handle
 		logger.Info("accept link")
-		ClientCounter++
+		atomic.AddInt32(&ClientCounter, 1)
 		waitDone.Add(1)
 		go func() {
 			defer func() {

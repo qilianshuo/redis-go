@@ -65,7 +65,7 @@ func TestClientCounter(t *testing.T) {
 
 	sleepUntil := time.Now().Add(3 * time.Second)
 	subTime := func() time.Duration {
-		return sleepUntil.Sub(time.Now())
+		return time.Until(sleepUntil)
 	}
 
 	for i := 0; i < 1000; i++ {
