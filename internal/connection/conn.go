@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/qilianshuo/redis-go/pkg/logger"
+	"github.com/qilianshuo/redis-go/common/logger"
 	"github.com/qilianshuo/redis-go/pkg/sync/wait"
 )
 
