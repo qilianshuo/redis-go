@@ -2,16 +2,14 @@ package bitmap
 
 type BitMap []byte
 
-func New() *BitMap {
+func NewBitMap() *BitMap {
 	b := BitMap(make([]byte, 0))
 	return &b
 }
 
-func toByteSize(bitSize int64) int64 {
-	if bitSize%8 == 0 {
-		return bitSize / 8
-	}
-	return bitSize/8 + 1
+func FromBytes(bytes []byte) *BitMap {
+	bm := BitMap(bytes)
+	return &bm
 }
 
 func (b *BitMap) grow(bitSize int64) {
@@ -25,11 +23,6 @@ func (b *BitMap) grow(bitSize int64) {
 
 func (b *BitMap) BitSize() int {
 	return len(*b) * 8
-}
-
-func FromBytes(bytes []byte) *BitMap {
-	bm := BitMap(bytes)
-	return &bm
 }
 
 func (b *BitMap) ToBytes() []byte {
@@ -97,4 +90,11 @@ func (b *BitMap) ForEachByte(begin int, end int, cb Callback) {
 			return
 		}
 	}
+}
+
+func toByteSize(bitSize int64) int64 {
+	if bitSize%8 == 0 {
+		return bitSize / 8
+	}
+	return bitSize/8 + 1
 }

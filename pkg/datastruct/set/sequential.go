@@ -49,7 +49,7 @@ func (set *SequentialSet) Len() int {
 func (set *SequentialSet) ToSlice() []string {
 	slice := make([]string, set.Len())
 	i := 0
-	set.dict.ForEach(func(key string, val interface{}) bool {
+	set.dict.ForEach(func(key string, val any) bool {
 		if i < len(slice) {
 			slice[i] = key
 		} else {
@@ -67,7 +67,7 @@ func (set *SequentialSet) ForEach(consumer func(member string) bool) {
 	if set == nil || set.dict == nil {
 		return
 	}
-	set.dict.ForEach(func(key string, val interface{}) bool {
+	set.dict.ForEach(func(key string, val any) bool {
 		return consumer(key)
 	})
 }

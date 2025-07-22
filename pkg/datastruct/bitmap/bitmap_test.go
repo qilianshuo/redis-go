@@ -5,7 +5,7 @@ import (
 )
 
 func TestNew(t *testing.T) {
-	bitmap := New()
+	bitmap := NewBitMap()
 	if bitmap == nil || len(*bitmap) != 0 {
 		t.Errorf("New() failed, expected empty BitMap")
 	}
@@ -21,7 +21,7 @@ func TestToByteSize(t *testing.T) {
 }
 
 func TestBitMap_Grow(t *testing.T) {
-	bitmap := New()
+	bitmap := NewBitMap()
 	bitmap.grow(16)
 	if len(*bitmap) != 2 {
 		t.Errorf("grow() failed, expected length 2, got %d", len(*bitmap))
@@ -29,7 +29,7 @@ func TestBitMap_Grow(t *testing.T) {
 }
 
 func TestBitMap_BitSize(t *testing.T) {
-	bitmap := New()
+	bitmap := NewBitMap()
 	bitmap.grow(16)
 	if bitmap.BitSize() != 16 {
 		t.Errorf("BitSize() failed, expected 16, got %d", bitmap.BitSize())
@@ -53,7 +53,7 @@ func TestBitMap_ToBytes(t *testing.T) {
 }
 
 func TestBitMap_SetBit(t *testing.T) {
-	bitmap := New()
+	bitmap := NewBitMap()
 	bitmap.SetBit(10, 1)
 	if bitmap.GetBit(10) != 1 {
 		t.Errorf("SetBit() failed, expected bit 10 to be 1")
@@ -65,7 +65,7 @@ func TestBitMap_SetBit(t *testing.T) {
 }
 
 func TestBitMap_GetBit(t *testing.T) {
-	bitmap := New()
+	bitmap := NewBitMap()
 	if bitmap.GetBit(5) != 0 {
 		t.Errorf("GetBit() failed, expected bit 5 to be 0")
 	}
@@ -76,7 +76,7 @@ func TestBitMap_GetBit(t *testing.T) {
 }
 
 func TestBitMap_ForEachBit(t *testing.T) {
-	bitmap := New()
+	bitmap := NewBitMap()
 	bitmap.SetBit(0, 1)
 	bitmap.SetBit(1, 0)
 	bitmap.SetBit(2, 1)

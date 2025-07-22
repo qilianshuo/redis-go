@@ -18,7 +18,7 @@ type Connection struct {
 }
 
 var connPool = sync.Pool{
-	New: func() interface{} {
+	New: func() any {
 		return &Connection{}
 	},
 }

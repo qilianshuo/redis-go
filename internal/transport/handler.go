@@ -85,7 +85,7 @@ func (h *RespHandler) Close() error {
 	// TODO
 	logger.Info("handler shutting down...")
 	h.closing.Set(true)
-	h.activeConn.Range(func(key interface{}, val interface{}) bool {
+	h.activeConn.Range(func(key any, val any) bool {
 		client := key.(*connection.Connection)
 		_ = client.Close()
 		return true

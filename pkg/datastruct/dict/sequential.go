@@ -2,18 +2,18 @@ package dict
 
 // SequentialDict wraps a map, it is not thread safe
 type SequentialDict struct {
-	m map[string]interface{}
+	m map[string]any
 }
 
 // NewSequentialDict makes a new map
 func NewSequentialDict() *SequentialDict {
 	return &SequentialDict{
-		m: make(map[string]interface{}),
+		m: make(map[string]any),
 	}
 }
 
 // Get returns the binding value and whether the key is exist
-func (dict *SequentialDict) Get(key string) (val interface{}, exists bool) {
+func (dict *SequentialDict) Get(key string) (val any, exists bool) {
 	val, ok := dict.m[key]
 	return val, ok
 }
@@ -27,7 +27,7 @@ func (dict *SequentialDict) Len() int {
 }
 
 // Put puts key value into dict and returns the number of new inserted key-value
-func (dict *SequentialDict) Put(key string, val interface{}) (result int) {
+func (dict *SequentialDict) Put(key string, val any) (result int) {
 	_, existed := dict.m[key]
 	dict.m[key] = val
 	if existed {
@@ -37,7 +37,7 @@ func (dict *SequentialDict) Put(key string, val interface{}) (result int) {
 }
 
 // PutIfAbsent puts value if the key is not exists and returns the number of updated key-value
-func (dict *SequentialDict) PutIfAbsent(key string, val interface{}) (result int) {
+func (dict *SequentialDict) PutIfAbsent(key string, val any) (result int) {
 	_, existed := dict.m[key]
 	if existed {
 		return 0
@@ -47,7 +47,7 @@ func (dict *SequentialDict) PutIfAbsent(key string, val interface{}) (result int
 }
 
 // PutIfExists puts value if the key is existed and returns the number of inserted key-value
-func (dict *SequentialDict) PutIfExists(key string, val interface{}) (result int) {
+func (dict *SequentialDict) PutIfExists(key string, val any) (result int) {
 	_, existed := dict.m[key]
 	if existed {
 		dict.m[key] = val
@@ -57,7 +57,7 @@ func (dict *SequentialDict) PutIfExists(key string, val interface{}) (result int
 }
 
 // Remove removes the key and return the number of deleted key-value
-func (dict *SequentialDict) Remove(key string) (val interface{}, result int) {
+func (dict *SequentialDict) Remove(key string) (val any, result int) {
 	val, existed := dict.m[key]
 	delete(dict.m, key)
 	if existed {

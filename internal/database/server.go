@@ -86,20 +86,20 @@ func NewStandaloneServer() *Server {
 func (server *Server) SaveRDB() error {
 	// 准备要保存的数据
 	saveData := struct {
-		Data   map[string]interface{} `json:"data"`
-		TTLMap map[string]time.Time   `json:"ttl_map"`
+		Data   map[string]any       `json:"data"`
+		TTLMap map[string]time.Time `json:"ttl_map"`
 	}{
-		Data:   make(map[string]interface{}),
+		Data:   make(map[string]any),
 		TTLMap: make(map[string]time.Time),
 	}
 
 	// 收集数据
-	server.data.ForEach(func(key string, value interface{}) bool {
+	server.data.ForEach(func(key string, value any) bool {
 		saveData.Data[key] = value
 		return true
 	})
 
-	server.ttlMap.ForEach(func(key string, value interface{}) bool {
+	server.ttlMap.ForEach(func(key string, value any) bool {
 		if t, ok := value.(time.Time); ok {
 			saveData.TTLMap[key] = t
 		}
@@ -123,19 +123,19 @@ func (server *Server) loadRDB() error {
 	}
 
 	// 解析数据
-	saveData, ok := data.(map[string]interface{})
+	saveData, ok := data.(map[string]any)
 	if !ok {
 		return fmt.Errorf("invalid RDB data format")
 	}
 
 	// 恢复数据
-	if dataMap, ok := saveData["data"].(map[string]interface{}); ok {
+	if dataMap, ok := saveData["data"].(map[string]any); ok {
 		for k, v := range dataMap {
 			server.data.Put(k, v)
 		}
 	}
 
-	if ttlMap, ok := saveData["ttl_map"].(map[string]interface{}); ok {
+	if ttlMap, ok := saveData["ttl_map"].(map[string]any); ok {
 		for k, v := range ttlMap {
 			if t, ok := v.(time.Time); ok {
 				server.ttlMap.Put(k, t)
@@ -271,7 +271,7 @@ func (server *Server) IsExpired(key string) bool {
 
 // ForEach traverses all the keys in the database
 func (server *Server) ForEach(cb func(key string, data *DataEntity, expiration *time.Time) bool) {
-	server.data.ForEach(func(key string, raw interface{}) bool {
+	server.data.ForEach(func(key string, raw any) bool {
 		entity, _ := raw.(*DataEntity)
 		var expiration *time.Time
 		rawExpireTime, ok := server.ttlMap.Get(key)

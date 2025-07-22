@@ -110,7 +110,7 @@ func TestSimpleDict_ForEach(t *testing.T) {
 	dict.Put("key2", "value2")
 
 	count := 0
-	dict.ForEach(func(key string, val interface{}) bool {
+	dict.ForEach(func(key string, val any) bool {
 		count++
 		return true
 	})

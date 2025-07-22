@@ -22,7 +22,7 @@ const (
 // [KEY_LEN(4)][KEY][VALUE_TYPE(1)][VALUE_LEN(4)][VALUE]
 
 // Save 保存数据库快照
-func Save(db interface{}, filename string) error {
+func Save(db any, filename string) error {
 	// 创建临时文件
 	tmpFile := filename + ".tmp"
 	file, err := os.Create(tmpFile)
@@ -82,7 +82,7 @@ func Save(db interface{}, filename string) error {
 }
 
 // Load 加载数据库快照
-func Load(filename string) (interface{}, error) {
+func Load(filename string) (any, error) {
 	file, err := os.Open(filename)
 	if err != nil {
 		return nil, err
@@ -107,7 +107,7 @@ func Load(filename string) (interface{}, error) {
 	}
 
 	// 解析数据库内容
-	var db interface{}
+	var db any
 	if err := json.Unmarshal(dbContent, &db); err != nil {
 		return nil, err
 	}

@@ -79,7 +79,7 @@ func TestQuickList_Range(t *testing.T) {
 	}
 
 	result := ql.Range(1, 4)
-	expected := []interface{}{2, 3, 4}
+	expected := []any{2, 3, 4}
 
 	for i, val := range result {
 		if val != expected[i] {
@@ -95,7 +95,7 @@ func TestQuickList_RemoveAllByVal(t *testing.T) {
 	ql.Add(1)
 	ql.Add(3)
 
-	removed := ql.RemoveAllByVal(func(val interface{}) bool {
+	removed := ql.RemoveAllByVal(func(val any) bool {
 		return val == 1
 	})
 
@@ -114,11 +114,11 @@ func TestQuickList_Contains(t *testing.T) {
 	ql.Add(2)
 	ql.Add(3)
 
-	if !ql.Contains(func(val interface{}) bool { return val == 2 }) {
+	if !ql.Contains(func(val any) bool { return val == 2 }) {
 		t.Fatalf("expected to contain 2")
 	}
 
-	if ql.Contains(func(val interface{}) bool { return val == 42 }) {
+	if ql.Contains(func(val any) bool { return val == 42 }) {
 		t.Fatalf("expected not to contain 42")
 	}
 }

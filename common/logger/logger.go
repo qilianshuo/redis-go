@@ -68,7 +68,7 @@ func NewStdoutLogger() *Logger {
 		logger:    log.New(os.Stdout, "", flags),
 		entryChan: make(chan *logEntry, bufferSize),
 		entryPool: &sync.Pool{
-			New: func() interface{} {
+			New: func() any {
 				return &logEntry{}
 			},
 		},
@@ -98,7 +98,7 @@ func NewFileLogger(settings *Settings) (*Logger, error) {
 		logger:    log.New(mw, "", flags),
 		entryChan: make(chan *logEntry, bufferSize),
 		entryPool: &sync.Pool{
-			New: func() interface{} {
+			New: func() any {
 				return &logEntry{}
 			},
 		},
@@ -149,49 +149,49 @@ func (logger *Logger) Output(level LogLevel, callerDepth int, msg string) {
 }
 
 // Debug logs debug message through DefaultLogger
-func Debug(v ...interface{}) {
+func Debug(v ...any) {
 	msg := fmt.Sprintln(v...)
 	DefaultLogger.Output(DEBUG, defaultCallerDepth, msg)
 }
 
 // Debugf logs debug message through DefaultLogger
-func Debugf(format string, v ...interface{}) {
+func Debugf(format string, v ...any) {
 	msg := fmt.Sprintf(format, v...)
 	DefaultLogger.Output(DEBUG, defaultCallerDepth, msg)
 }
 
 // Info logs message through DefaultLogger
-func Info(v ...interface{}) {
+func Info(v ...any) {
 	msg := fmt.Sprintln(v...)
 	DefaultLogger.Output(INFO, defaultCallerDepth, msg)
 }
 
 // Infof logs message through DefaultLogger
-func Infof(format string, v ...interface{}) {
+func Infof(format string, v ...any) {
 	msg := fmt.Sprintf(format, v...)
 	DefaultLogger.Output(INFO, defaultCallerDepth, msg)
 }
 
 // Warn logs warning message through DefaultLogger
-func Warn(v ...interface{}) {
+func Warn(v ...any) {
 	msg := fmt.Sprintln(v...)
 	DefaultLogger.Output(WARNING, defaultCallerDepth, msg)
 }
 
 // Error logs error message through DefaultLogger
-func Error(v ...interface{}) {
+func Error(v ...any) {
 	msg := fmt.Sprintln(v...)
 	DefaultLogger.Output(ERROR, defaultCallerDepth, msg)
 }
 
 // Errorf logs error message through DefaultLogger
-func Errorf(format string, v ...interface{}) {
+func Errorf(format string, v ...any) {
 	msg := fmt.Sprintf(format, v...)
 	DefaultLogger.Output(ERROR, defaultCallerDepth, msg)
 }
 
 // Fatal prints error message then stop the program
-func Fatal(v ...interface{}) {
+func Fatal(v ...any) {
 	msg := fmt.Sprintln(v...)
 	DefaultLogger.Output(FATAL, defaultCallerDepth, msg)
 }

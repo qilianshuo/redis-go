@@ -17,7 +17,7 @@ type ConcurrentDict struct {
 }
 
 type shard struct {
-	m     map[string]interface{}
+	m     map[string]any
 	mutex sync.RWMutex
 }
 
@@ -42,7 +42,7 @@ func MakeConcurrent(shardCount int) *ConcurrentDict {
 	if shardCount == 1 {
 		table := []*shard{
 			{
-				m: make(map[string]interface{}),
+				m: make(map[string]any),
 			},
 		}
 		return &ConcurrentDict{
@@ -55,7 +55,7 @@ func MakeConcurrent(shardCount int) *ConcurrentDict {
 	table := make([]*shard, shardCount)
 	for i := 0; i < shardCount; i++ {
 		table[i] = &shard{
-			m: make(map[string]interface{}),
+			m: make(map[string]any),
 		}
 	}
 	d := &ConcurrentDict{
@@ -97,7 +97,7 @@ func (dict *ConcurrentDict) getShard(index uint32) *shard {
 }
 
 // Get returns the binding value and whether the key is exist
-func (dict *ConcurrentDict) Get(key string) (val interface{}, exists bool) {
+func (dict *ConcurrentDict) Get(key string) (val any, exists bool) {
 	if dict == nil {
 		panic("dict is nil")
 	}
@@ -109,7 +109,7 @@ func (dict *ConcurrentDict) Get(key string) (val interface{}, exists bool) {
 	return
 }
 
-func (dict *ConcurrentDict) GetWithLock(key string) (val interface{}, exists bool) {
+func (dict *ConcurrentDict) GetWithLock(key string) (val any, exists bool) {
 	if dict == nil {
 		panic("dict is nil")
 	}
@@ -128,7 +128,7 @@ func (dict *ConcurrentDict) Len() int {
 }
 
 // Put puts key value into dict and returns the number of new inserted key-value
-func (dict *ConcurrentDict) Put(key string, val interface{}) (result int) {
+func (dict *ConcurrentDict) Put(key string, val any) (result int) {
 	if dict == nil {
 		panic("dict is nil")
 	}
@@ -146,7 +146,7 @@ func (dict *ConcurrentDict) Put(key string, val interface{}) (result int) {
 	return 1
 }
 
-func (dict *ConcurrentDict) PutWithLock(key string, val interface{}) (result int) {
+func (dict *ConcurrentDict) PutWithLock(key string, val any) (result int) {
 	if dict == nil {
 		panic("dict is nil")
 	}
@@ -163,7 +163,7 @@ func (dict *ConcurrentDict) PutWithLock(key string, val interface{}) (result int
 }
 
 // PutIfAbsent puts value if the key is not exists and returns the number of updated key-value
-func (dict *ConcurrentDict) PutIfAbsent(key string, val interface{}) (result int) {
+func (dict *ConcurrentDict) PutIfAbsent(key string, val any) (result int) {
 	if dict == nil {
 		panic("dict is nil")
 	}
@@ -180,7 +180,7 @@ func (dict *ConcurrentDict) PutIfAbsent(key string, val interface{}) (result int
 	return 1
 }
 
-func (dict *ConcurrentDict) PutIfAbsentWithLock(key string, val interface{}) (result int) {
+func (dict *ConcurrentDict) PutIfAbsentWithLock(key string, val any) (result int) {
 	if dict == nil {
 		panic("dict is nil")
 	}
@@ -196,7 +196,7 @@ func (dict *ConcurrentDict) PutIfAbsentWithLock(key string, val interface{}) (re
 }
 
 // PutIfExists puts value if the key is existed and returns the number of inserted key-value
-func (dict *ConcurrentDict) PutIfExists(key string, val interface{}) (result int) {
+func (dict *ConcurrentDict) PutIfExists(key string, val any) (result int) {
 	if dict == nil {
 		panic("dict is nil")
 	}
@@ -212,7 +212,7 @@ func (dict *ConcurrentDict) PutIfExists(key string, val interface{}) (result int
 	return 0
 }
 
-func (dict *ConcurrentDict) PutIfExistsWithLock(key string, val interface{}) (result int) {
+func (dict *ConcurrentDict) PutIfExistsWithLock(key string, val any) (result int) {
 	if dict == nil {
 		panic("dict is nil")
 	}
@@ -227,7 +227,7 @@ func (dict *ConcurrentDict) PutIfExistsWithLock(key string, val interface{}) (re
 }
 
 // Remove removes the key and return the number of deleted key-value
-func (dict *ConcurrentDict) Remove(key string) (val interface{}, result int) {
+func (dict *ConcurrentDict) Remove(key string) (val any, result int) {
 	if dict == nil {
 		panic("dict is nil")
 	}
@@ -244,7 +244,7 @@ func (dict *ConcurrentDict) Remove(key string) (val interface{}, result int) {
 	return nil, 0
 }
 
-func (dict *ConcurrentDict) RemoveWithLock(key string) (val interface{}, result int) {
+func (dict *ConcurrentDict) RemoveWithLock(key string) (val any, result int) {
 	if dict == nil {
 		panic("dict is nil")
 	}
@@ -296,7 +296,7 @@ func (dict *ConcurrentDict) ForEach(consumer Consumer) {
 func (dict *ConcurrentDict) Keys() []string {
 	keys := make([]string, dict.Len())
 	i := 0
-	dict.ForEach(func(key string, val interface{}) bool {
+	dict.ForEach(func(key string, val any) bool {
 		if i < len(keys) {
 			keys[i] = key
 			i++

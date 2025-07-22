@@ -79,7 +79,7 @@ func TestLinkedList_RemoveLast(t *testing.T) {
 
 func TestLinkedList_RemoveAllByVal(t *testing.T) {
 	list := Make(1, 2, 1, 3)
-	removed := list.RemoveAllByVal(func(val interface{}) bool {
+	removed := list.RemoveAllByVal(func(val any) bool {
 		return val == 1
 	})
 
@@ -94,7 +94,7 @@ func TestLinkedList_RemoveAllByVal(t *testing.T) {
 
 func TestLinkedList_RemoveByVal(t *testing.T) {
 	list := Make(1, 2, 1, 3)
-	removed := list.RemoveByVal(func(val interface{}) bool {
+	removed := list.RemoveByVal(func(val any) bool {
 		return val == 1
 	}, 1)
 
@@ -109,7 +109,7 @@ func TestLinkedList_RemoveByVal(t *testing.T) {
 
 func TestLinkedList_ReverseRemoveByVal(t *testing.T) {
 	list := Make(1, 2, 1, 3)
-	removed := list.ReverseRemoveByVal(func(val interface{}) bool {
+	removed := list.ReverseRemoveByVal(func(val any) bool {
 		return val == 1
 	}, 1)
 
@@ -134,7 +134,7 @@ func TestLinkedList_ForEach(t *testing.T) {
 	list := Make(1, 2, 3)
 	sum := 0
 
-	list.ForEach(func(i int, val interface{}) bool {
+	list.ForEach(func(i int, val any) bool {
 		sum += val.(int)
 		return true
 	})
@@ -147,11 +147,11 @@ func TestLinkedList_ForEach(t *testing.T) {
 func TestLinkedList_Contains(t *testing.T) {
 	list := Make(1, 2, 3)
 
-	if !list.Contains(func(val interface{}) bool { return val == 2 }) {
+	if !list.Contains(func(val any) bool { return val == 2 }) {
 		t.Fatalf("expected to contain 2")
 	}
 
-	if list.Contains(func(val interface{}) bool { return val == 42 }) {
+	if list.Contains(func(val any) bool { return val == 42 }) {
 		t.Fatalf("expected not to contain 42")
 	}
 }
@@ -159,7 +159,7 @@ func TestLinkedList_Contains(t *testing.T) {
 func TestLinkedList_Range(t *testing.T) {
 	list := Make(1, 2, 3, 4, 5)
 	result := list.Range(1, 4)
-	expected := []interface{}{2, 3, 4}
+	expected := []any{2, 3, 4}
 
 	for i, val := range result {
 		if val != expected[i] {
