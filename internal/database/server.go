@@ -51,7 +51,7 @@ func (server *Server) processCommands() {
 				cmd.RespCh <- result
 			}
 		case <-server.closeChan:
-			break
+			return
 		}
 	}
 }

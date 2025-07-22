@@ -58,7 +58,7 @@ func cmdGet(db *Server, args [][]byte) resp.Reply {
 	if !ok {
 		return resp.MakeNullBulkReply()
 	}
-	valString, ok := val.(string)
+	valString, _ := val.(string)
 	valBytes := []byte(valString)
 	return resp.MakeBulkReply(valBytes)
 
@@ -121,7 +121,7 @@ func cmdTTL(db *Server, args [][]byte) resp.Reply {
 		// Convert to time
 		expiryTime := expireVal.(time.Time)
 		// Calculate remaining time
-		ttl := expiryTime.Sub(time.Now()).Seconds()
+		ttl := time.Until(expiryTime).Seconds()
 		if ttl < 0 {
 			// Key has expired
 			db.deleteExpiredKey(keyStr)
@@ -143,7 +143,7 @@ func (server *Server) isExpired(key string) bool {
 	}
 
 	// Convert to time
-	expiryTime := *(expireVal.(*time.Time))
+	expiryTime := *expireVal.(*time.Time)
 
 	// Check if expired
 	return time.Now().After(expiryTime)
