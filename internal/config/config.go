@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/qilianshuo/redis-go/common/utils"
 	"github.com/qilianshuo/redis-go/pkg/logger"
+	"github.com/qilianshuo/redis-go/pkg/utils"
 )
 
 // ServerProperties defines global config properties

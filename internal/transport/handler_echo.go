@@ -8,9 +8,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/qilianshuo/redis-go/common/sync/atomic"
-	"github.com/qilianshuo/redis-go/common/sync/wait"
 	"github.com/qilianshuo/redis-go/pkg/logger"
+	"github.com/qilianshuo/redis-go/pkg/sync/atomic"
+	"github.com/qilianshuo/redis-go/pkg/sync/wait"
 )
 
 // EchoHandler echos received line to client, using for test

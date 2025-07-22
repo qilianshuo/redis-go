@@ -8,11 +8,11 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/qilianshuo/redis-go/common/sync/atomic"
 	"github.com/qilianshuo/redis-go/internal/connection"
 	"github.com/qilianshuo/redis-go/internal/database"
 	"github.com/qilianshuo/redis-go/internal/resp"
 	"github.com/qilianshuo/redis-go/pkg/logger"
+	"github.com/qilianshuo/redis-go/pkg/sync/atomic"
 )
 
 // RespHandler implements transport.Handler and serves as a redis service
