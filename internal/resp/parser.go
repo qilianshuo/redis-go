@@ -8,7 +8,7 @@ import (
 	"runtime/debug"
 	"strconv"
 
-	"github.com/mirage208/redis-go/common/logger"
+	"github.com/mirage208/redis-go/pkg/logger"
 )
 
 type Payload struct {

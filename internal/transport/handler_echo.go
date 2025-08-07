@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/mirage208/redis-go/common/logger"
+	"github.com/mirage208/redis-go/pkg/logger"
 	"github.com/mirage208/redis-go/pkg/sync/atomic"
 	"github.com/mirage208/redis-go/pkg/sync/wait"
 )

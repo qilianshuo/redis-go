@@ -12,7 +12,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/mirage208/redis-go/common/logger"
+	"github.com/mirage208/redis-go/pkg/logger"
 )
 
 // Config stores service properties
