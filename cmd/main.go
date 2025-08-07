@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/mirage208/redis-go/common/config"
 	"github.com/mirage208/redis-go/common/logger"
 	"github.com/mirage208/redis-go/common/utils"
+	"github.com/mirage208/redis-go/internal/config"
 	"github.com/mirage208/redis-go/internal/transport"
 )
 
