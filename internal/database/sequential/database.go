@@ -5,11 +5,11 @@ import (
 	"strings"
 	"time"
 
+	"github.com/mirage208/redis-go/common/datastruct/dict"
 	"github.com/mirage208/redis-go/common/logger"
 	"github.com/mirage208/redis-go/internal/connection"
 	"github.com/mirage208/redis-go/internal/database/rdb"
 	"github.com/mirage208/redis-go/internal/resp"
-	"github.com/mirage208/redis-go/pkg/datastruct/dict"
 )
 
 // DataEntity stores data bound to a key, including a string, list, hash, set and so on
