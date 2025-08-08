@@ -178,6 +178,11 @@ func Warn(v ...any) {
 	DefaultLogger.Output(WARNING, defaultCallerDepth, msg)
 }
 
+func Warnf(format string, v ...any) {
+	msg := fmt.Sprintf(format, v...)
+	DefaultLogger.Output(WARNING, defaultCallerDepth, msg)
+}
+
 // Error logs error message through DefaultLogger
 func Error(v ...any) {
 	msg := fmt.Sprintln(v...)
