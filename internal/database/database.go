@@ -3,8 +3,8 @@ package database
 import (
 	"strings"
 
-	"github.com/mirage208/redis-go/common/datastruct/dict"
 	"github.com/mirage208/redis-go/internal/connection"
+	"github.com/mirage208/redis-go/internal/kvcache"
 	"github.com/mirage208/redis-go/internal/resp"
 )
 
@@ -20,22 +20,15 @@ type DB interface {
 	Close()
 }
 
-const (
-	dataDictSize = 1 << 16
-	ttlDictSize  = 1 << 16
-)
-
 type ConcurrentDB struct {
-	data *dict.ConcurrentDict
-	ttl  *dict.ConcurrentDict
+	cache *kvcache.KVCache
 }
 
 type ExecFunc func(db *ConcurrentDB, args [][]byte) resp.Reply
 
 func NewConcurrentDB() *ConcurrentDB {
 	return &ConcurrentDB{
-		data: dict.NewConcurrentDict(dataDictSize),
-		ttl:  dict.NewConcurrentDict(ttlDictSize),
+		cache: kvcache.NewKVCache(),
 	}
 }
 
