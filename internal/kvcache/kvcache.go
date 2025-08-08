@@ -24,15 +24,20 @@ func NewKVCache() *KVCache {
 	}
 }
 
+// DataEntity stores data bound to a key, including a string, list, hash, set and so on
+type DataEntity struct {
+	Data any
+}
+
 // GetEntity retrieves a value by key from the cache.
-// It returns the value and a boolean indicating whether the key exists.
-// If the key does not exist, it returns nil and false.
-// If the key exists, it returns the value and true.
-// If the key has an expiration time set, it checks if the current time is past that expiration time.
-func (c *KVCache) GetEntity(key string) (value any, ok bool) {
-	value, ok = c.data.Get(key)
+func (c *KVCache) GetEntity(key string) (entity *DataEntity, ok bool) {
+	value, ok := c.data.Get(key)
 	if !ok {
-		return
+		return nil, false
+	}
+	entity, ok = value.(*DataEntity)
+	if !ok {
+		return nil, false
 	}
 	if expireTime, ok := c.ttl.Get(key); ok {
 		if time.Now().After(expireTime.(time.Time)) {
@@ -47,6 +52,7 @@ func (c *KVCache) GetEntity(key string) (value any, ok bool) {
 // PutEntity inserts or updates a key-value pair in the cache.
 func (c *KVCache) PutEntity(key string, value any) (ok bool) {
 	ret := c.data.Put(key, value)
+	println("PutEntity", key, value, ret)
 	if ret > 0 {
 		ok = true
 	} else {

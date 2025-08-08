@@ -3,6 +3,7 @@ package database
 import (
 	"time"
 
+	"github.com/mirage208/redis-go/internal/kvcache"
 	"github.com/mirage208/redis-go/internal/resp"
 )
 
@@ -20,13 +21,13 @@ func setExecuter(db *ConcurrentDB, args [][]byte) resp.Reply {
 	}
 	key := string(args[0])
 	value := args[1]
-	policy := updatePolicy
+	policy := upsertPolicy
 	ttl := unlimitedTTL
 	if len(args) > 2 {
 		// todo: handle expiration
 	}
 
-	entity := &DataEntity{
+	entity := &kvcache.DataEntity{
 		Data: value,
 	}
 
@@ -56,11 +57,15 @@ func getExecuter(db *ConcurrentDB, args [][]byte) resp.Reply {
 		return resp.MakeErrorReply("ERR wrong number of arguments for 'get' command")
 	}
 	key := string(args[0])
-	value, exists := db.cache.GetEntity(key)
-	if !exists {
+	entity, exists := db.cache.GetEntity(key)
+	if !exists || entity == nil {
 		return resp.MakeNullBulkReply()
 	}
-	return resp.MakeBulkReply(value.([]byte))
+	value, ok := entity.Data.([]byte)
+	if !ok {
+		return resp.MakeErrorReply("ERR value is not a string")
+	}
+	return resp.MakeBulkReply(value)
 }
 func init() {
 	// Register all commands
