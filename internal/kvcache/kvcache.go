@@ -92,3 +92,17 @@ func (c *KVCache) Expire(key string, expireTime time.Time) {
 func (c *KVCache) Persist(key string) {
 	c.ttl.Remove(key)
 }
+
+// ForEach iterates over all key-value pairs in the cache, applying the provided function.
+func (c *KVCache) ForEach(f func(key string, entity *DataEntity, expiration *time.Time) bool) {
+	c.data.ForEach(func(key string, val any) bool {
+		entity, _ := val.(*DataEntity)
+		var expiration *time.Time
+		rawExpireTime, ok := c.ttl.Get(key)
+		if ok {
+			expireTime, _ := rawExpireTime.(time.Time)
+			expiration = &expireTime
+		}
+		return f(key, entity, expiration)
+	})
+}
