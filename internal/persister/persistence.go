@@ -4,23 +4,21 @@ import (
 	"context"
 	"os"
 
-	"github.com/mirage208/redis-go/internal/database"
 	"github.com/mirage208/redis-go/pkg/logger"
 )
 
 type Persister struct {
-	ctx         context.Context
-	cancel      context.CancelFunc
-	db          database.DB
+	ctx    context.Context
+	cancel context.CancelFunc
+
 	aofFileName string
 	aofFsync    string
 	aofFile     *os.File
 	aofChan     chan *payload
 }
 
-func NewPersister(db database.DB, aofFileName string, aofFync string) (*Persister, error) {
+func NewPersister(aofFileName string, aofFync string) (*Persister, error) {
 	persister := &Persister{
-		db:          db,
 		aofFileName: aofFileName,
 		aofFsync:    aofFync,
 		aofChan:     make(chan *payload, aofChanSize),

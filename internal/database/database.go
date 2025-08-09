@@ -3,8 +3,11 @@ package database
 import (
 	"strings"
 
+	"github.com/mirage208/redis-go/common/utils"
+	"github.com/mirage208/redis-go/internal/config"
 	"github.com/mirage208/redis-go/internal/connection"
 	"github.com/mirage208/redis-go/internal/kvcache"
+	"github.com/mirage208/redis-go/internal/persister"
 	"github.com/mirage208/redis-go/internal/resp"
 )
 
@@ -25,6 +28,8 @@ type SequentialDB struct {
 	cache *kvcache.KVCache
 
 	cmdCh chan *Command
+
+	persister *persister.Persister
 }
 
 func NewSequentialDB() *SequentialDB {
@@ -32,6 +37,18 @@ func NewSequentialDB() *SequentialDB {
 		cache: kvcache.NewKVCache(),
 		cmdCh: make(chan *Command, 1024),
 	}
+	if config.Properties.AppendOnly {
+		validAof := utils.FileExists(config.Properties.AppendFilename)
+		persister, err := persister.NewPersister(config.Properties.AppendFilename, config.Properties.AppendFsync)
+		if err != nil {
+			// Handle error
+		}
+		d.persister = persister
+		if validAof {
+			d.cache = persister.LoadAof()
+		}
+	}
+
 	go d.handleCommands()
 	return d
 }

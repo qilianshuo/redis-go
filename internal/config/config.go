@@ -17,20 +17,22 @@ import (
 // ServerProperties defines global config properties
 type ServerProperties struct {
 	// for Public configuration
-	RunID             string `cfg:"run-id"` // runID always different at every exec.
-	Bind              string `cfg:"bind"`
-	Port              int    `cfg:"port"`
-	Dir               string `cfg:"dir"`
-	AnnounceHost      string `cfg:"announce-host"`
+	RunID        string `cfg:"run-id"` // runID always different at every exec.
+	Bind         string `cfg:"bind"`
+	Port         int    `cfg:"port"`
+	Dir          string `cfg:"dir"`
+	AnnounceHost string `cfg:"announce-host"`
+	// AOF configuration
 	AppendOnly        bool   `cfg:"append-only"`
 	AppendFilename    string `cfg:"append-filename"`
 	AppendFsync       string `cfg:"append-fsync"`
 	AofUseRdbPreamble bool   `cfg:"aof-use-rdb-preamble"`
-	MaxClients        int    `cfg:"max-clients"`
-	RequirePass       string `cfg:"require-pass"`
-	Databases         int    `cfg:"databases"`
-	RDBFilename       string `cfg:"db-filename"`
-	ReplTimeout       int    `cfg:"repl-timeout"`
+
+	MaxClients  int    `cfg:"max-clients"`
+	RequirePass string `cfg:"require-pass"`
+	Databases   int    `cfg:"databases"`
+	RDBFilename string `cfg:"db-filename"`
+	ReplTimeout int    `cfg:"repl-timeout"`
 
 	// config file path
 	CfPath string `cfg:"cf,omitempty"`
@@ -92,7 +94,7 @@ func parse(src io.Reader) *ServerProperties {
 		t := reflect.TypeOf(config)
 		v := reflect.ValueOf(config)
 		n := t.Elem().NumField()
-		for i := 0; i < n; i++ {
+		for i := range n {
 			field := t.Elem().Field(i)
 			fieldVal := v.Elem().Field(i)
 			key, ok := field.Tag.Lookup("cfg")

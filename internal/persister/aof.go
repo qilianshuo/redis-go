@@ -3,6 +3,7 @@ package persister
 import (
 	"time"
 
+	"github.com/mirage208/redis-go/internal/kvcache"
 	"github.com/mirage208/redis-go/internal/resp"
 	"github.com/mirage208/redis-go/pkg/logger"
 )
@@ -19,6 +20,21 @@ const (
 
 type payload struct {
 	cmdLine [][]byte
+}
+
+func (p *Persister) SaveCommand(cmdLine [][]byte) {
+	if p.aofChan == nil {
+		return
+	}
+
+	p.aofChan <- &payload{
+		cmdLine: cmdLine,
+	}
+}
+
+func (p *Persister) LoadAof() *kvcache.KVCache {
+	// TODO: Implement AOF loading logic
+	return nil
 }
 
 func (p *Persister) Fsync() {
