@@ -8,11 +8,10 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/mirage208/redis-go/common/logger"
 	"github.com/mirage208/redis-go/internal/connection"
 	"github.com/mirage208/redis-go/internal/database"
-	"github.com/mirage208/redis-go/internal/database/concurrent"
 	"github.com/mirage208/redis-go/internal/resp"
+	"github.com/mirage208/redis-go/pkg/logger"
 	"github.com/mirage208/redis-go/pkg/sync/atomic"
 )
 
@@ -27,7 +26,7 @@ type RespHandler struct {
 func NewHandler() *RespHandler {
 	// TODO
 	// db := database.NewStandaloneServer()
-	db := concurrent.NewConcurrentDB()
+	db := database.NewConcurrentDB()
 	return &RespHandler{
 		db: db,
 	}

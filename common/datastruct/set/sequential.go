@@ -1,6 +1,6 @@
 package set
 
-import "github.com/mirage208/redis-go/pkg/datastruct/dict"
+import "github.com/mirage208/redis-go/common/datastruct/dict"
 
 type SequentialSet struct {
 	dict dict.Dict

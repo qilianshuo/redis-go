@@ -8,7 +8,7 @@ import (
 	"runtime/debug"
 	"strconv"
 
-	"github.com/mirage208/redis-go/common/logger"
+	"github.com/mirage208/redis-go/pkg/logger"
 )
 
 type Payload struct {
@@ -57,8 +57,8 @@ func parse(rawReader io.Reader, ch chan<- *Payload) {
 				Data: MakeErrorReply(string(line[1:])),
 			}
 		case ':': // Integers
-			value, err := strconv.ParseInt(string(line[1:]), 10, 64)
-			if err != nil {
+			value, parseErr := strconv.ParseInt(string(line[1:]), 10, 64)
+			if parseErr != nil {
 				err := errors.New("protocol error: " + "illegal number " + string(line[1:]))
 				ch <- &Payload{Err: err}
 				continue
