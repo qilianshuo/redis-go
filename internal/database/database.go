@@ -15,8 +15,8 @@ type DB interface {
 	Close()
 }
 
-type CMD struct {
-	cmd      string
+type Command struct {
+	name     string
 	args     [][]byte
 	callback chan resp.Reply
 }
@@ -24,23 +24,21 @@ type CMD struct {
 type SequentialDB struct {
 	cache *kvcache.KVCache
 
-	cmdCh chan *CMD
+	cmdCh chan *Command
 }
-
-type ExecFunc func(db *SequentialDB, args [][]byte) resp.Reply
 
 func NewSequentialDB() *SequentialDB {
 	d := &SequentialDB{
 		cache: kvcache.NewKVCache(),
-		cmdCh: make(chan *CMD, 1024),
+		cmdCh: make(chan *Command, 1024),
 	}
 	go d.handleCommands()
 	return d
 }
 
 func (db *SequentialDB) Exec(client *connection.Connection, cmdLine [][]byte) resp.Reply {
-	cmd := &CMD{
-		cmd:      strings.ToLower(string(cmdLine[0])),
+	cmd := &Command{
+		name:     strings.ToLower(string(cmdLine[0])),
 		args:     cmdLine[1:],
 		callback: make(chan resp.Reply),
 	}
@@ -58,7 +56,7 @@ func (db *SequentialDB) Close() {
 
 func (db *SequentialDB) handleCommands() {
 	for cmd := range db.cmdCh {
-		switch cmd.cmd {
+		switch cmd.name {
 		case "multi":
 			cmd.callback <- resp.MakeErrorReply("ERR 'multi' command not supported in concurrent DB")
 		case "exec":
@@ -68,7 +66,7 @@ func (db *SequentialDB) handleCommands() {
 		case "watch":
 			cmd.callback <- resp.MakeErrorReply("ERR 'watch' command not supported in concurrent DB")
 		default:
-			cmd.callback <- db.executeCommand(cmd.cmd, cmd.args)
+			cmd.callback <- db.executeCommand(cmd.name, cmd.args)
 		}
 	}
 }
