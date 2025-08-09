@@ -1,4 +1,4 @@
-package persistence
+package persister
 
 import (
 	"encoding/binary"
