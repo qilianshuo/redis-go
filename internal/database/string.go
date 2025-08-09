@@ -15,7 +15,7 @@ const (
 
 const unlimitedTTL int64 = 0
 
-func setExecuter(db *ConcurrentDB, args [][]byte) resp.Reply {
+func setExecuter(db *SequentialDB, args [][]byte) resp.Reply {
 	if len(args) < 2 {
 		return resp.MakeErrorReply("ERR wrong number of arguments for 'set' command")
 	}
@@ -52,7 +52,7 @@ func setExecuter(db *ConcurrentDB, args [][]byte) resp.Reply {
 	}
 	return resp.MakeOkReply()
 }
-func getExecuter(db *ConcurrentDB, args [][]byte) resp.Reply {
+func getExecuter(db *SequentialDB, args [][]byte) resp.Reply {
 	if len(args) < 1 {
 		return resp.MakeErrorReply("ERR wrong number of arguments for 'get' command")
 	}

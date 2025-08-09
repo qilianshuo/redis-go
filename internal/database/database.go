@@ -15,19 +15,19 @@ type DB interface {
 	Close()
 }
 
-type ConcurrentDB struct {
+type SequentialDB struct {
 	cache *kvcache.KVCache
 }
 
-type ExecFunc func(db *ConcurrentDB, args [][]byte) resp.Reply
+type ExecFunc func(db *SequentialDB, args [][]byte) resp.Reply
 
-func NewConcurrentDB() *ConcurrentDB {
-	return &ConcurrentDB{
+func NewSequentialDB() *SequentialDB {
+	return &SequentialDB{
 		cache: kvcache.NewKVCache(),
 	}
 }
 
-func (db *ConcurrentDB) Exec(client *connection.Connection, cmdLine [][]byte) resp.Reply {
+func (db *SequentialDB) Exec(client *connection.Connection, cmdLine [][]byte) resp.Reply {
 	if len(cmdLine) == 0 {
 		return resp.MakeErrorReply("ERR wrong number of arguments for 'exec' command")
 	}
@@ -46,15 +46,15 @@ func (db *ConcurrentDB) Exec(client *connection.Connection, cmdLine [][]byte) re
 	}
 }
 
-func (db *ConcurrentDB) AfterClientClose(c *connection.Connection) {
-	// No specific actions needed for concurrent DB
+func (db *SequentialDB) AfterClientClose(c *connection.Connection) {
+	// No specific actions needed for sequential DB
 }
 
-func (db *ConcurrentDB) Close() {
-	// No specific actions needed for concurrent DB
+func (db *SequentialDB) Close() {
+	// No specific actions needed for sequential DB
 }
 
-func (db *ConcurrentDB) executeCommand(cmdName string, args [][]byte) resp.Reply {
+func (db *SequentialDB) executeCommand(cmdName string, args [][]byte) resp.Reply {
 	cmd, exists := cmdTable[cmdName]
 	if !exists {
 		return resp.MakeErrorReply("ERR unknown command '" + cmdName + "'")
