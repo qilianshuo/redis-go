@@ -45,7 +45,7 @@ func setExecuter(db *SequentialDB, args [][]byte) resp.Reply {
 	if ok {
 		if ttl != unlimitedTTL {
 			expireTime := time.Now().Add(time.Duration(ttl) * time.Millisecond)
-			db.cache.Expire(key, expireTime)
+			db.cache.Expire(key, &expireTime)
 		} else {
 		}
 		return resp.MakeOkReply()

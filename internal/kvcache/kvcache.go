@@ -7,13 +7,13 @@ import (
 // KVCache is a sequential key-value cache structure
 type KVCache struct {
 	data map[string]*DataEntity
-	ttl  map[string]time.Time
+	ttl  map[string]*time.Time
 }
 
 func NewKVCache() *KVCache {
 	return &KVCache{
 		data: map[string]*DataEntity{},
-		ttl:  map[string]time.Time{},
+		ttl:  map[string]*time.Time{},
 	}
 }
 
@@ -30,7 +30,7 @@ func (c *KVCache) GetEntity(key string) (entity *DataEntity, ok bool) {
 	}
 
 	if expireTime, ok := c.ttl[key]; ok {
-		if time.Now().After(expireTime) {
+		if time.Now().After(*expireTime) {
 			delete(c.data, key)
 			delete(c.ttl, key)
 			return nil, false
@@ -64,7 +64,7 @@ func (c *KVCache) PutIfExists(key string, entity *DataEntity) (ok bool) {
 }
 
 // Expire sets the expiration time for a key.
-func (c *KVCache) Expire(key string, expireTime time.Time) {
+func (c *KVCache) Expire(key string, expireTime *time.Time) {
 	c.ttl[key] = expireTime
 }
 
@@ -77,7 +77,7 @@ func (c *KVCache) Persist(key string) {
 func (c *KVCache) ForEach(f func(key string, entity *DataEntity, expiration *time.Time) bool) {
 	for key, entity := range c.data {
 		if expiration, ok := c.ttl[key]; ok {
-			if !f(key, entity, &expiration) {
+			if !f(key, entity, expiration) {
 				break
 			}
 		} else {
