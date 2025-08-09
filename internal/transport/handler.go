@@ -25,8 +25,7 @@ type RespHandler struct {
 
 func NewHandler() *RespHandler {
 	// TODO
-	// db := database.NewStandaloneServer()
-	db := database.NewConcurrentDB()
+	db := database.NewSequentialDB()
 	return &RespHandler{
 		db: db,
 	}
