@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-// KVCache is a simple key-value cache structure
+// KVCache is a sequential key-value cache structure
 type KVCache struct {
 	data map[string]*DataEntity
 	ttl  map[string]time.Time
