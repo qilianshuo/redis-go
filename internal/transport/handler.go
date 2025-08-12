@@ -23,6 +23,7 @@ type RespHandler struct {
 	closing    atomic.Boolean // refusing new client and new request
 }
 
+// NewHandler creates a new RespHandler
 func NewHandler() *RespHandler {
 	// TODO
 	db := database.NewSequentialDB()
@@ -31,6 +32,7 @@ func NewHandler() *RespHandler {
 	}
 }
 
+// Handle handles the incoming connection
 func (h *RespHandler) Handle(ctx context.Context, conn net.Conn) {
 	// TODO
 	if h.closing.Get() || ctx.Done() != nil {
@@ -81,6 +83,7 @@ func (h *RespHandler) Handle(ctx context.Context, conn net.Conn) {
 	}
 }
 
+// Close closes the RespHandler and all active connections
 func (h *RespHandler) Close() error {
 	// TODO
 	logger.Info("handler shutting down...")
@@ -94,6 +97,7 @@ func (h *RespHandler) Close() error {
 	return nil
 }
 
+// closeClient closes the client connection and cleans up resources
 func (h *RespHandler) closeClient(client *connection.Connection) {
 	_ = client.Close()
 	h.db.AfterClientClose(client)

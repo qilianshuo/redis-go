@@ -5,16 +5,19 @@ import (
 	"os"
 )
 
+// checkNotExist checks if a file or directory does not exist
 func checkNotExist(src string) bool {
 	_, err := os.Stat(src)
 	return os.IsNotExist(err)
 }
 
+// checkPermission checks if a file or directory has permission
 func checkPermission(src string) bool {
 	_, err := os.Stat(src)
 	return os.IsPermission(err)
 }
 
+// isNotExistMkDir checks if a directory does not exist and creates it if necessary
 func isNotExistMkDir(src string) error {
 	if checkNotExist(src) {
 		return mkDir(src)
@@ -23,10 +26,12 @@ func isNotExistMkDir(src string) error {
 
 }
 
+// mkDir creates a directory if it does not exist
 func mkDir(src string) error {
 	return os.MkdirAll(src, os.ModePerm)
 }
 
+// mustOpen opens a file for reading and writing, creating it if it does not exist
 func mustOpen(fileName, dir string) (*os.File, error) {
 	if checkPermission(dir) {
 		return nil, fmt.Errorf("permission denied dir: %s", dir)

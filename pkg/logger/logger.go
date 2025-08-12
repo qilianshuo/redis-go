@@ -37,6 +37,7 @@ const (
 	bufferSize         = 1e5
 )
 
+// logEntry represents a single log entry
 type logEntry struct {
 	msg   string
 	level LogLevel
@@ -198,5 +199,11 @@ func Errorf(format string, v ...any) {
 // Fatal prints error message then stop the program
 func Fatal(v ...any) {
 	msg := fmt.Sprintln(v...)
+	DefaultLogger.Output(FATAL, defaultCallerDepth, msg)
+}
+
+// Fatalf logs error message through DefaultLogger
+func Fatalf(format string, v ...any) {
+	msg := fmt.Sprintf(format, v...)
 	DefaultLogger.Output(FATAL, defaultCallerDepth, msg)
 }

@@ -11,6 +11,7 @@ import (
 	"github.com/mirage208/redis-go/pkg/logger"
 )
 
+// Payload represents the parsed RESP payload
 type Payload struct {
 	Data Reply
 	Err  error
