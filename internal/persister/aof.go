@@ -32,7 +32,7 @@ func (p *Persister) SaveCommand(cmdLine [][]byte) {
 	}
 }
 
-func (p *Persister) LoadAof() *kvcache.KVCache {
+func (p *Persister) LoadAof() *kvcache.Cache {
 	// TODO: Implement AOF loading logic
 	return nil
 }
