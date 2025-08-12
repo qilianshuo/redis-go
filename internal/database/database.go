@@ -18,6 +18,10 @@ type DB interface {
 	Close()
 }
 
+// DataEntity stores data bound to a key, including a string, list, hash, set and so on
+type DataEntity struct {
+	Data any
+}
 type Command struct {
 	name     string
 	args     [][]byte
@@ -25,7 +29,7 @@ type Command struct {
 }
 
 type SequentialDB struct {
-	cache *kvcache.KVCache
+	cache *kvcache.Cache
 
 	cmdCh chan *Command
 
