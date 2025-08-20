@@ -13,8 +13,8 @@ type LRUCache struct {
 	evictList  *list.List
 }
 
-// entry represents a single entry in the cache.
-type entry struct {
+// lruEntry represents a single lruEntry in the cache.
+type lruEntry struct {
 	key   string
 	value any
 }
@@ -33,7 +33,7 @@ func (c *LRUCache) Set(key string, val any) (ok bool) {
 	// Check if the key is already in the cache.
 	if elem, ok := c.cache[key]; ok {
 		// Update the value and move the element to the front of the eviction list.
-		elem.Value.(*entry).value = val
+		elem.Value.(*lruEntry).value = val
 		c.evictList.MoveToFront(elem)
 		return true
 	}
@@ -44,7 +44,7 @@ func (c *LRUCache) Set(key string, val any) (ok bool) {
 	}
 
 	// Create a new entry and add it to the cache and eviction list.
-	newElem := c.evictList.PushFront(&entry{key: key, value: val})
+	newElem := c.evictList.PushFront(&lruEntry{key: key, value: val})
 	c.cache[key] = newElem
 	return true
 }
@@ -54,7 +54,7 @@ func (c *LRUCache) Get(key string) (val any, ok bool) {
 	if elem, ok := c.cache[key]; ok {
 		// Move the accessed element to the front of the eviction list.
 		c.evictList.MoveToFront(elem)
-		return elem.Value.(*entry).value, true
+		return elem.Value.(*lruEntry).value, true
 	}
 	return nil, false
 }
@@ -95,7 +95,11 @@ func (c *LRUCache) Has(key string) bool {
 
 // ForEach iterates over all key-value pairs in the cache.
 func (c *LRUCache) ForEach(iter func(key string, val any, expiration *time.Time) bool) {
-	// TODO: Implement the ForEach method.
+	for key, elem := range c.cache {
+		if !iter(key, elem.Value.(*lruEntry).value, c.ttl[key]) {
+			break
+		}
+	}
 }
 
 // evict removes the least recently used item from the cache.
@@ -108,7 +112,7 @@ func (c *LRUCache) evict() {
 	elem := c.evictList.Back()
 	if elem != nil {
 		c.evictList.Remove(elem)
-		entry := elem.Value.(*entry)
+		entry := elem.Value.(*lruEntry)
 		delete(c.cache, entry.key)
 	}
 }
