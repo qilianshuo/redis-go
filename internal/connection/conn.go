@@ -15,7 +15,7 @@ type Connection struct {
 
 	// 事务相关
 	InTransaction bool
-	TxCommands    [][][]byte // 存储事务命令（可扩展为 Command 类型）
+	txCommands    [][][]byte // 存储事务命令（可扩展为 Command 类型）txCommands
 
 	// wait until finish sending data, used for graceful shutdown
 	sendingData wait.Wait
