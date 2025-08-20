@@ -13,6 +13,10 @@ type Connection struct {
 	// TODO
 	conn net.Conn
 
+	// 事务相关
+	InTransaction bool
+	TxCommands    [][][]byte // 存储事务命令（可扩展为 Command 类型）
+
 	// wait until finish sending data, used for graceful shutdown
 	sendingData wait.Wait
 }
@@ -69,4 +73,14 @@ func (c *Connection) Name() string {
 		return c.conn.RemoteAddr().String()
 	}
 	return ""
+}
+
+// AddTxCommand adds a transaction command
+func (c *Connection) AddTxCommand(cmd [][]byte) {
+	c.txCommands = append(c.txCommands, cmd)
+}
+
+// GetTxCommands returns the transaction commands
+func (c *Connection) GetTxCommands() [][][]byte {
+	return c.txCommands
 }
