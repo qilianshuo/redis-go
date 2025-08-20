@@ -18,10 +18,12 @@ const (
 	aofChanSize = 1 << 10
 )
 
+// aofPayload represents a single AOF payload.
 type payload struct {
 	cmdLine [][]byte
 }
 
+// SaveCommand saves a command to the AOF log.
 func (p *Persister) SaveCommand(cmdLine [][]byte) {
 	if p.aofChan == nil {
 		return
@@ -32,17 +34,20 @@ func (p *Persister) SaveCommand(cmdLine [][]byte) {
 	}
 }
 
+// LoadAof loads the AOF log into the cache.
 func (p *Persister) LoadAof() *kvcache.Cache {
 	// TODO: Implement AOF loading logic
 	return nil
 }
 
+// Fsync flushes the AOF buffer to disk.
 func (p *Persister) Fsync() {
 	if err := p.aofFile.Sync(); err != nil {
 		logger.Errorf("failed to fsync AOF file: %v", err)
 	}
 }
 
+// listenAof listens for AOF payloads and writes them to the AOF file.
 func (p *Persister) listenAof() {
 	go func() {
 		for pd := range p.aofChan {
@@ -51,6 +56,7 @@ func (p *Persister) listenAof() {
 	}()
 }
 
+// writeAof writes an AOF payload to the AOF file.
 func (p *Persister) writeAof(pd *payload) {
 	data := resp.MakeMultiBulkReply(pd.cmdLine).ToBytes()
 	_, err := p.aofFile.Write(data)
@@ -62,6 +68,7 @@ func (p *Persister) writeAof(pd *payload) {
 	}
 }
 
+// fsyncEverySec periodically flushes the AOF buffer to disk.
 func (p *Persister) fsyncEverySec() {
 	go func() {
 		ticker := time.NewTicker(time.Second)

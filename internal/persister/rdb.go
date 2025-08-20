@@ -12,6 +12,7 @@ import (
 	rdbEncoder "github.com/hdt3213/rdb/encoder"
 )
 
+// GenerateRDB generates an RDB file from the current dataset.
 func (p *Persister) GenerateRDB(rdbFilename string) error {
 	file, err := os.CreateTemp(config.GetTmpDir(), "*.rdb")
 	if err != nil {

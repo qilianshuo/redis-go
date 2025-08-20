@@ -7,6 +7,7 @@ import (
 	"github.com/mirage208/redis-go/pkg/logger"
 )
 
+// Persister is responsible for persisting data to disk.
 type Persister struct {
 	ctx    context.Context
 	cancel context.CancelFunc
@@ -17,6 +18,7 @@ type Persister struct {
 	aofChan     chan *payload
 }
 
+// NewPersister creates a new Persister.
 func NewPersister(aofFileName string, aofFync string) (*Persister, error) {
 	persister := &Persister{
 		aofFileName: aofFileName,
@@ -40,6 +42,7 @@ func NewPersister(aofFileName string, aofFync string) (*Persister, error) {
 	return persister, nil
 }
 
+// Close closes the AOF file and cancels the context.
 func (p *Persister) Close() error {
 	if p == nil {
 		return nil
